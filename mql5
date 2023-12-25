@@ -1,0 +1,81 @@
+
+//+------------------------------------------------------------------+
+//|                                                    Tailor EA MT4 |
+//|                                         Developed by Forex Robot Easy Team |
+//|                                                            forexroboteasy.com |
+//+------------------------------------------------------------------+
+
+// Define the input parameters
+extern double StopLoss = 2; // Stop loss in pips
+extern double TakeProfit = 10; // Take profit in pips
+extern double RiskPercentage = 1; // Risk percentage of capital to be used per trade
+
+//+------------------------------------------------------------------+
+//|                                                                  |
+//|                                                                  |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+    // Check if there is a new bar
+    if (NewBar())
+    {
+        // Analyze the CHOCH price and market trends
+        double chochPrice = CalculateCHOCH();
+        bool uptrend = IsUptrend();
+        
+        // Check if the CHOCH price and market trends meet the conditions for placing orders
+        if (chochPrice > 0 && uptrend)
+        {
+            // Calculate the lot size based on risk percentage
+            double lotSize = CalculateLotSize();
+            
+            // Place Buy Stop order
+            double buyStopPrice = Ask + NormalizeDouble(chochPrice, _Digits);
+            double stopLossPrice = buyStopPrice - StopLoss * _Point;
+            double takeProfitPrice = buyStopPrice + TakeProfit * _Point;
+            OrderSend(Symbol(), OP_BUYSTOP, lotSize, buyStopPrice, 0, stopLossPrice, takeProfitPrice, 'Buy Stop', 0, 0, Green);
+            
+            // Place Sell Stop order
+            double sellStopPrice = Bid - NormalizeDouble(chochPrice, _Digits);
+            stopLossPrice = sellStopPrice + StopLoss * _Point;
+            takeProfitPrice = sellStopPrice - TakeProfit * _Point;
+            OrderSend(Symbol(), OP_SELLSTOP, lotSize, sellStopPrice, 0, stopLossPrice, takeProfitPrice, 'Sell Stop', 0, 0, Red);
+        }
+    }
+}
+
+//+------------------------------------------------------------------+
+//| Calculate the CHOCH price                                       |
+//+------------------------------------------------------------------+
+double CalculateCHOCH()
+{
+    // Code for calculating the CHOCH price
+    return 0;
+}
+
+//+------------------------------------------------------------------+
+//| Check if there is a new bar                                      |
+//+------------------------------------------------------------------+
+bool NewBar()
+{
+    // Code for checking if there is a new bar
+    return true;
+}
+
+//+------------------------------------------------------------------+
+//| Check if there is an uptrend                                     |
+//+------------------------------------------------------------------+
+bool IsUptrend()
+{
+    // Code for checking if there is an uptrend
+    return true;
+}
+
+//+------------------------------------------------------------------+
+//| Calculate the lot size based on risk percentage                  |
+//+------------------------------------------------------------------+
+double CalculateLotSize()
+{
+    // Code for calculating the lot size based on risk percentage
+    return 0.01; // Temporary value for demonstration purposes
+}
